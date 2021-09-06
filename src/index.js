@@ -342,6 +342,7 @@ class Wheel {
     }
 
     if(opt.url !== null && opt.url !== undefined && opt.url !== '') {
+      this._running = true
       fetch(opt.url,
         {
           method: 'post',
