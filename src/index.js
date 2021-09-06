@@ -312,6 +312,7 @@ class Wheel {
     if (this._running) return
 
     const opt = this.option
+    const _this = this;
 
     const runAnime = pie => {
       if (this._rotation > 0) {
@@ -341,6 +342,7 @@ class Wheel {
       })
     }
 
+
     if(opt.url !== null && opt.url !== undefined && opt.url !== '') {
       this._running = true
       fetch(opt.url,
@@ -353,11 +355,11 @@ class Wheel {
           let selectedPie = opt.data.findIndex(function(item){
             item.id === result.selected.id;
           });
-          this._running = false;
+          _this._running = false;
           runAnime(selectedPie);
         }).catch(error => {
           console.error(error);
-          this._running = false;
+          _this._running = false;
           opt.onFail && typeof opt.onFail === 'function' && opt.onFail()
         });
     } else {
