@@ -353,9 +353,11 @@ class Wheel {
           let selectedPie = opt.data.findIndex(function(item){
             item.id === result.selected.id;
           });
+          this._running = false;
           runAnime(selectedPie);
         }).catch(error => {
           console.error(error);
+          this._running = false;
           opt.onFail && typeof opt.onFail === 'function' && opt.onFail()
         });
     } else {
