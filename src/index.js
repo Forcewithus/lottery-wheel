@@ -312,10 +312,6 @@ class Wheel {
     if (this._running) return
 
     const opt = this.option
-    if (opt.limit > 0 && this._count >= opt.limit) {
-      opt.onFail && typeof opt.onFail === 'function' && opt.onFail()
-      return
-    }
 
     const runAnime = pie => {
       if (this._rotation > 0) {
@@ -345,17 +341,39 @@ class Wheel {
       })
     }
 
-    const random = Math.random() * this._weightSum
-    let randomWeight = 0
-    let pie = 0
-    for (const i in this._weight) {
-      randomWeight += this._weight[i]
-      if (randomWeight > random) {
-        pie = i
-        runAnime(pie)
-        break
+    if(opt.url !== null && opt.url !== undefined && opt.url !== '') {
+      fetch(opt.url,
+        {
+          method: 'post',
+        }
+        ).then(response => response.json)
+        .then(result => {
+          let selectedPie = opt.data.findIndex(function(item){
+            item.id === result.selected.id;
+          });
+          runAnime(selectedPie);
+        }).catch(error => {
+          console.error(error);
+          opt.onFail && typeof opt.onFail === 'function' && opt.onFail()
+        });
+    } else {
+      if (opt.limit > 0 && this._count >= opt.limit) {
+        opt.onFail && typeof opt.onFail === 'function' && opt.onFail()
+        return
+      }
+      const random = Math.random() * this._weightSum
+      let randomWeight = 0
+      let pie = 0
+      for (const i in this._weight) {
+        randomWeight += this._weight[i]
+        if (randomWeight > random) {
+          pie = i
+          runAnime(pie)
+          break
+        }
       }
     }
+    // end
   }
 }
 
