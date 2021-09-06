@@ -345,6 +345,7 @@ class Wheel {
       fetch(opt.url,
         {
           method: 'post',
+          body: JSON.stringify(opt.url_data)
         }
         ).then(response => response.json)
         .then(result => {
