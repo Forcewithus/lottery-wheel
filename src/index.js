@@ -353,10 +353,10 @@ class Wheel {
           },
           body: JSON.stringify(opt.url_data)
         }
-        ).then(response => response.json)
+        ).then(response => response.json())
         .then(result => {
           let selectedPie = opt.data.findIndex(function(item){
-            item.id === result.selected.id;
+            return item.id === result.selected.id;
           });
           _this._running = false;
           runAnime(selectedPie);
